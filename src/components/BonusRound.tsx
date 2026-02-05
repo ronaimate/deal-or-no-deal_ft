@@ -1,9 +1,19 @@
-import type { BonusOption } from '../game/types';
+import { useState, useEffect } from 'react';
+import type { BonusOption, BonusEffect } from '../game/types';
+
+const EFFECT_LABELS: Record<BonusEffect, string> = {
+  double: 'Duplázás',
+  add1M: '+1 000 000 Ft',
+  halve: 'Felezés',
+  keep: 'Megtartás',
+};
+
+const REVEAL_DURATION_MS = 2500;
 
 interface BonusRoundProps {
   options: BonusOption[];
   baseAmount: number;
-  onSelect: (effect: import('../game/types').BonusEffect) => void;
+  onSelect: (effect: BonusEffect) => void;
 }
 
 function formatAmount(value: number): string {
@@ -11,6 +21,32 @@ function formatAmount(value: number): string {
 }
 
 export function BonusRound({ options, baseAmount, onSelect }: BonusRoundProps) {
+  const [selectedOption, setSelectedOption] = useState<BonusOption | null>(null);
+
+  useEffect(() => {
+    if (selectedOption === null) return;
+    const t = setTimeout(() => {
+      onSelect(selectedOption.effect);
+    }, REVEAL_DURATION_MS);
+    return () => clearTimeout(t);
+  }, [selectedOption, onSelect]);
+
+  const handleClick = (opt: BonusOption) => {
+    if (selectedOption !== null) return;
+    setSelectedOption(opt);
+  };
+
+  if (selectedOption !== null) {
+    return (
+      <section className="bonus-round bonus-round--reveal" aria-live="polite">
+        <h2>Választásod</h2>
+        <p className="bonus-reveal-letter">{selectedOption.letter}</p>
+        <p className="bonus-reveal-effect">{EFFECT_LABELS[selectedOption.effect]}</p>
+        <p className="bonus-reveal-hint">Átirányítás az eredményhez…</p>
+      </section>
+    );
+  }
+
   return (
     <section className="bonus-round">
       <h2>23-as bónusz táska</h2>
@@ -23,7 +59,7 @@ export function BonusRound({ options, baseAmount, onSelect }: BonusRoundProps) {
           <button
             key={opt.letter}
             type="button"
-            onClick={() => onSelect(opt.effect)}
+            onClick={() => handleClick(opt)}
             className="bonus-option bonus-option--hidden"
             aria-label={`Bónusz táska ${opt.letter}`}
           >

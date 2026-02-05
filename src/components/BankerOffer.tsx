@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { playRingSound, stopRingSound } from '../utils/ringSound';
 
 interface BankerOfferProps {
   offer: number;
@@ -24,8 +25,12 @@ export function BankerOffer({
   const [isRinging, setIsRinging] = useState(true);
 
   useEffect(() => {
+    const stopRing = playRingSound(RING_DURATION_MS);
     const t = setTimeout(() => setIsRinging(false), RING_DURATION_MS);
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      stopRing();
+    };
   }, []);
 
   if (isRinging) {
