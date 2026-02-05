@@ -114,7 +114,6 @@ export function useGameState() {
     acceptedOffer,
     bonusOptions,
     finalAmount,
-    shouldShowBankerAfterOpen,
     startGame,
     selectOwnBag,
     openBagById,
