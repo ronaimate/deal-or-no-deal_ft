@@ -1,7 +1,6 @@
 let audioContext: AudioContext | null = null;
 let ringInterval: ReturnType<typeof setInterval> | null = null;
 let ringOscillator: OscillatorNode | null = null;
-let ringGain: GainNode | null = null;
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
@@ -38,7 +37,6 @@ export function playRingSound(durationMs: number = 2500): () => void {
     gain.gain.value = 0.15;
 
     ringOscillator = osc;
-    ringGain = gain;
 
     let phase = 0;
     const toggle = () => {
@@ -74,5 +72,4 @@ export function stopRingSound(): void {
     }
     ringOscillator = null;
   }
-  ringGain = null;
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { playRingSound, stopRingSound } from '../utils/ringSound';
+import { playRingSound } from '../utils/ringSound';
 
 interface BankerOfferProps {
   offer: number;
