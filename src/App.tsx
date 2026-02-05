@@ -17,7 +17,6 @@ function App() {
     bankerOffer,
     bonusOptions,
     finalAmount,
-    shouldShowBankerAfterOpen,
     startGame,
     selectOwnBag,
     openBagById,
