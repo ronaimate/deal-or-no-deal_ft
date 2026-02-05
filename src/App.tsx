@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NameScreen } from './components/NameScreen';
 import { BagGrid } from './components/BagGrid';
 import { BankerOffer } from './components/BankerOffer';

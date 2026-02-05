@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   getStoredBankerName,
-  getStoredBankerImage,
   setStoredBankerName,
   setStoredBankerImage,
   resizeImageToDataUrl,
