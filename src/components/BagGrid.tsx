@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Bag } from '../game/types';
+import { playBagOpenSound } from '../utils/bagOpenSound';
 
 function formatAmount(value: number): string {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
@@ -50,6 +51,7 @@ export function BagGrid({
       return;
     }
     if (canOpenMore && !bag.opened && !bag.isOwn) {
+      playBagOpenSound(bag.value);
       setOpeningId(bag.id);
       onSelectBag(bag.id);
     }
