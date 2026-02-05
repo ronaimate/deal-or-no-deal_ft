@@ -11,6 +11,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --safe-top: env(safe-area-inset-top, 0);
+  --safe-bottom: env(safe-area-inset-bottom, 0);
+  --touch-min: 44px;
 }
 
 a {
@@ -25,13 +29,16 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: flex-start;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  padding: var(--safe-top) 0 var(--safe-bottom);
+  box-sizing: border-box;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: clamp(1.75rem, 5vw, 3.2em);
   line-height: 1.1;
 }
 
@@ -44,10 +51,14 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 button:hover {
   border-color: #646cff;
+}
+button:active {
+  transform: scale(0.98);
 }
 button:focus,
 button:focus-visible {

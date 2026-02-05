@@ -1,8 +1,11 @@
+/* ---- Layout: reszponzív ---- */
 #root {
-  max-width: 900px;
+  width: 100%;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: clamp(0.5rem, 2vw, 1.5rem);
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 /* Screens */
@@ -11,17 +14,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
-  gap: 1.5rem;
+  min-height: 50vh;
+  padding: 1rem;
+  gap: clamp(1rem, 3vw, 1.5rem);
 }
 
 .name-screen h1 {
   margin: 0 0 0.5rem;
+  text-align: center;
 }
 
 .name-screen .subtitle {
   margin: 0 0 1rem;
   opacity: 0.9;
+  text-align: center;
 }
 
 .name-form {
@@ -29,7 +35,7 @@
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  max-width: 280px;
+  max-width: min(280px, 90vw);
 }
 
 .name-input {
@@ -39,6 +45,8 @@
   border-radius: 8px;
   background: var(--input-bg, #1a1a1a);
   color: inherit;
+  min-height: var(--touch-min, 44px);
+  box-sizing: border-box;
 }
 
 .name-input:focus {
@@ -54,7 +62,8 @@
   border-radius: 8px;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.1s;
+  transition: border-color 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: var(--touch-min, 44px);
 }
 
 .btn:disabled {
@@ -70,6 +79,8 @@
 .btn-primary:hover:not(:disabled) {
   border-color: #535bf2;
   background: #535bf2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.35);
 }
 
 .btn-deal {
@@ -81,6 +92,8 @@
   border-color: #16a34a;
   background: #16a34a;
   color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
 }
 
 .btn-no-deal {
@@ -91,114 +104,245 @@
 .btn-no-deal:hover {
   border-color: #dc2626;
   background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
 }
 
 /* App main */
 .app-main {
-  padding: 1rem 0;
+  padding: clamp(0.5rem, 2vw, 1.5rem) 0;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .game-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
 }
 
 .game-header h1 {
   margin: 0 0 0.25rem;
-  font-size: 1.75rem;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
 }
 
 .player-name {
   margin: 0 0 0.5rem;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
   opacity: 0.9;
 }
 
 .round-info {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
   opacity: 0.85;
 }
 
-/* Bag grid */
+/* ---- Táskák: táskás kinézet + effektek ---- */
 .bag-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(72px, 22vw), 1fr));
+  gap: clamp(0.5rem, 2vw, 1rem);
   justify-content: center;
+  padding: 0.25rem 0;
 }
 
 .bag {
-  aspect-ratio: 1;
+  position: relative;
+  aspect-ratio: 0.75;
+  max-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px 8px 12px 12px;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  overflow: visible;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Táska „teste” – lekerekített doboz, árnyék */
+.bag .bag-body {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 3px solid #444;
-  background: #2a2a2a;
-  color: inherit;
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  border-radius: 6px 6px 10px 10px;
+  background: linear-gradient(165deg, #3d3d3d 0%, #2a2a2a 45%, #1f1f1f 100%);
+  border: 2px solid #4a4a4a;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 4px 8px rgba(0,0,0,0.35);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+/* Fogantyú (handle) */
+.bag .bag-handle {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28%;
+  min-width: 20px;
+  height: 10px;
+  border: 3px solid #555;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(180deg, #4a4a4a 0%, #333 100%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.bag .bag-number {
+  font-size: clamp(1rem, 3.5vw, 1.35rem);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.bag .bag-value {
+  font-size: clamp(0.65rem, 2.2vw, 0.85rem);
+  line-height: 1.2;
+  text-align: center;
+  padding: 0 2px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.bag:hover:not(:disabled) .bag-body {
+  border-color: #6b6bff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -2px 4px rgba(0,0,0,0.25),
+    0 6px 14px rgba(100, 108, 255, 0.25);
 }
 
 .bag:hover:not(:disabled) {
-  border-color: #646cff;
-  background: #333;
+  transform: scale(1.05);
 }
 
-.bag.own {
-  border-color: #f59e0b;
-  background: #422006;
+/* Saját táska – arany/barna tónus */
+.bag.own .bag-body {
+  background: linear-gradient(165deg, #6b5344 0%, #4a3729 45%, #3d2b20 100%);
+  border-color: #8b6914;
+  box-shadow:
+    inset 0 1px 0 rgba(255,220,150,0.15),
+    inset 0 -2px 4px rgba(0,0,0,0.4),
+    0 4px 12px rgba(210, 160, 40, 0.3);
 }
 
-.bag.own:hover:not(:disabled) {
-  border-color: #fbbf24;
+.bag.own .bag-handle {
+  border-color: #8b6914;
+  background: linear-gradient(180deg, #7a5c2a 0%, #5c4519 100%);
 }
 
-.bag.opened {
-  border-color: #555;
-  background: #1a1a1a;
+.bag.own:hover:not(:disabled) .bag-body {
+  border-color: #c9a227;
+  box-shadow:
+    inset 0 1px 0 rgba(255,220,150,0.2),
+    0 6px 18px rgba(210, 160, 40, 0.4);
+}
+
+/* Nyitott táska – kifordított, „üres” */
+.bag.opened .bag-body {
+  background: linear-gradient(165deg, #252525 0%, #151515 100%);
+  border-color: #404040;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.bag.opened .bag-handle {
+  opacity: 0.4;
+}
+
+/* Effekt: most választottam (saját táska) */
+.bag.bag--just-chosen .bag-body {
+  animation: bagChosen 2.2s ease;
+}
+
+@keyframes bagChosen {
+  0% { transform: scale(1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -2px 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.35); }
+  15% { transform: scale(1.15); box-shadow: inset 0 1px 0 rgba(255,220,150,0.25), 0 0 0 4px rgba(210, 160, 40, 0.6), 0 8px 24px rgba(210, 160, 40, 0.5); }
+  30% { transform: scale(1.08); }
+  45% { transform: scale(1.12); }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.bag.bag--just-chosen {
+  animation: bagChosenOuter 2.2s ease;
+}
+
+@keyframes bagChosenOuter {
+  0% { filter: brightness(1); }
+  20% { filter: brightness(1.4); }
+  100% { filter: brightness(1); }
+}
+
+/* Effekt: most nyitom (flip / villanás) */
+.bag.bag--opening .bag-body {
+  animation: bagOpen 0.55s ease;
+  transform-origin: center center;
+}
+
+@keyframes bagOpen {
+  0% { transform: scaleY(1); opacity: 1; }
+  45% { transform: scaleY(0.02); opacity: 0.7; }
+  55% { opacity: 0.3; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+.bag:disabled {
   cursor: default;
 }
 
-.bag-number {
-  font-size: 1.25rem;
-}
-
-.bag-value {
-  font-size: 0.75rem;
-  line-height: 1.2;
-  text-align: center;
-}
-
-@media (min-width: 500px) {
-  .bag-value {
-    font-size: 0.85rem;
-  }
-}
-
-/* Banker offer */
+/* ---- Bankár ajánlat + effekt ---- */
 .banker-offer {
   text-align: center;
-  padding: 2rem 1rem;
-  background: #1e1e2e;
-  border-radius: 12px;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 1.5rem);
+  background: linear-gradient(180deg, #252536 0%, #1a1a28 100%);
+  border-radius: 16px;
   border: 2px solid #333;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .banker-offer h2 {
   margin: 0 0 1rem;
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
 }
 
 .offer-amount {
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 4.5vw, 2rem);
   font-weight: 700;
   margin: 0 0 2rem;
   color: #fbbf24;
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.88; }
 }
 
 .banker-buttons {
@@ -209,29 +353,31 @@
 }
 
 .banker-buttons .btn {
-  min-width: 160px;
+  min-width: min(160px, 70vw);
 }
 
 /* Bonus round */
 .bonus-round {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: clamp(1.5rem, 4vw, 2rem) 1rem;
+  animation: fadeIn 0.4s ease;
 }
 
 .bonus-round h2 {
   margin: 0 0 1rem;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
 }
 
 .bonus-intro {
   margin: 0 0 2rem;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
 }
 
 .bonus-options {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-width: 400px;
+  gap: clamp(0.75rem, 3vw, 1.25rem);
+  max-width: min(400px, 92vw);
   margin: 0 auto;
 }
 
@@ -240,19 +386,20 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  padding: 1.5rem 1rem;
+  padding: clamp(1rem, 3vw, 1.5rem) 1rem;
   border: 3px solid #555;
   border-radius: 12px;
-  background: #2a2a2a;
+  background: linear-gradient(165deg, #2e2e2e 0%, #222 100%);
   color: inherit;
   font-size: 1rem;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.2s ease;
 }
 
 .bonus-option:hover {
   border-color: #646cff;
-  background: #333;
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(100, 108, 255, 0.2);
 }
 
 .bonus-letter {
@@ -272,38 +419,67 @@
 
 .result-message {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
 }
 
 .result-amount {
-  font-size: 2rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   font-weight: 700;
   margin: 0 0 2rem;
   color: #22c55e;
+  text-shadow: 0 0 24px rgba(34, 197, 94, 0.35);
+  animation: fadeIn 0.6s ease;
 }
 
+/* ---- Light theme ---- */
 @media (prefers-color-scheme: light) {
   .name-input {
     --input-bg: #f0f0f0;
   }
 
-  .bag {
-    background: #e8e8e8;
-    border-color: #999;
+  .bag .bag-body {
+    background: linear-gradient(165deg, #c4b8a8 0%, #a89888 45%, #8a7a6a 100%);
+    border-color: #7a6a5a;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.5),
+      inset 0 -2px 4px rgba(0,0,0,0.15),
+      0 4px 8px rgba(0,0,0,0.2);
   }
 
-  .bag.own {
-    background: #fef3c7;
-    border-color: #d97706;
+  .bag .bag-handle {
+    border-color: #6a5a4a;
+    background: linear-gradient(180deg, #9a8a7a 0%, #7a6a5a 100%);
   }
 
-  .bag.opened {
-    background: #d4d4d4;
+  .bag:hover:not(:disabled) .bag-body {
+    border-color: #5a4acf;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.6),
+      0 6px 14px rgba(90, 74, 207, 0.25);
+  }
+
+  .bag.own .bag-body {
+    background: linear-gradient(165deg, #c9a84a 0%, #9a7220 45%, #7a5510 100%);
+    border-color: #8b6914;
+    box-shadow:
+      inset 0 1px 0 rgba(255,235,180,0.4),
+      inset 0 -2px 4px rgba(0,0,0,0.2),
+      0 4px 12px rgba(180, 130, 30, 0.35);
+  }
+
+  .bag.own .bag-handle {
+    border-color: #6b5314;
+    background: linear-gradient(180deg, #aa8a3a 0%, #8a6a1a 100%);
+  }
+
+  .bag.opened .bag-body {
+    background: linear-gradient(165deg, #9a9a9a 0%, #7a7a7a 100%);
+    border-color: #6a6a6a;
   }
 
   .banker-offer {
-    background: #f4f4f5;
-    border-color: #e4e4e7;
+    background: linear-gradient(180deg, #e8e8ec 0%, #d0d0d8 100%);
+    border-color: #b0b0c0;
   }
 
   .offer-amount {
@@ -311,12 +487,13 @@
   }
 
   .bonus-option {
-    background: #f4f4f5;
-    border-color: #d4d4d8;
+    background: linear-gradient(165deg, #e0e0e0 0%, #c8c8d0 100%);
+    border-color: #9090a0;
   }
 
   .bonus-option:hover {
-    background: #e4e4e7;
+    border-color: #646cff;
+    box-shadow: 0 6px 20px rgba(100, 108, 255, 0.25);
   }
 
   .result-amount {
