@@ -1,12 +1,23 @@
+import { useState, useEffect } from 'react';
 import { NameScreen } from './components/NameScreen';
 import { BagGrid } from './components/BagGrid';
 import { BankerOffer } from './components/BankerOffer';
 import { BonusRound } from './components/BonusRound';
 import { ResultScreen } from './components/ResultScreen';
+import { EliminatedAmounts } from './components/EliminatedAmounts';
 import { useGameState } from './hooks/useGameState';
+import { getStoredBankerName, getStoredBankerImage } from './utils/bankerStorage';
 import './App.css';
 
 function App() {
+  const [bankerName, setBankerName] = useState(() => getStoredBankerName());
+  const [bankerImage, setBankerImage] = useState<string | null>(() => getStoredBankerImage());
+
+  const handleBankerChange = ({ name, image }: { name: string; image: string | null }) => {
+    setBankerName(name);
+    setBankerImage(image);
+  };
+
   const {
     playerName,
     phase,
@@ -27,7 +38,14 @@ function App() {
   } = useGameState();
 
   if (phase === 'name') {
-    return <NameScreen onStart={startGame} />;
+    return (
+      <NameScreen
+        onStart={startGame}
+        bankerName={bankerName}
+        bankerImage={bankerImage}
+        onBankerChange={handleBankerChange}
+      />
+    );
   }
 
   if (phase === 'result') {
@@ -76,15 +94,22 @@ function App() {
           offer={offerAmount}
           onAccept={acceptDeal}
           onReject={rejectDeal}
+          bankerName={bankerName}
+          bankerImage={bankerImage}
         />
       ) : (
-        <BagGrid
-          bags={bags}
-          phase={phase as 'select_bag' | 'open_bags'}
-          bagsToOpenThisRound={bagsToOpenThisRound}
-          bagsOpenedThisRound={bagsOpenedThisRound}
-          onSelectBag={phase === 'select_bag' ? selectOwnBag : openBagById}
-        />
+        <>
+          <EliminatedAmounts
+            values={bags.filter((b) => b.opened).map((b) => b.value)}
+          />
+          <BagGrid
+            bags={bags}
+            phase={phase as 'select_bag' | 'open_bags'}
+            bagsToOpenThisRound={bagsToOpenThisRound}
+            bagsOpenedThisRound={bagsOpenedThisRound}
+            onSelectBag={phase === 'select_bag' ? selectOwnBag : openBagById}
+          />
+        </>
       )}
     </main>
   );

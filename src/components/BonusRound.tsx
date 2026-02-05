@@ -6,13 +6,6 @@ interface BonusRoundProps {
   onSelect: (effect: import('../game/types').BonusEffect) => void;
 }
 
-const EFFECT_LABELS: Record<import('../game/types').BonusEffect, string> = {
-  double: 'Duplázás',
-  add1M: '+1 000 000 Ft',
-  halve: 'Felezés',
-  keep: 'Megtartás',
-};
-
 function formatAmount(value: number): string {
   return `${value.toLocaleString('hu-HU')} Ft`;
 }
@@ -23,7 +16,7 @@ export function BonusRound({ options, baseAmount, onSelect }: BonusRoundProps) {
       <h2>23-as bónusz táska</h2>
       <p className="bonus-intro">
         Nyereményed: <strong>{formatAmount(baseAmount)}</strong>. Válassz egy
-        táskát (A, B, C vagy D):
+        táskát (A, B, C vagy D) – a tartalom rejtve van:
       </p>
       <div className="bonus-options">
         {options.map((opt) => (
@@ -31,10 +24,10 @@ export function BonusRound({ options, baseAmount, onSelect }: BonusRoundProps) {
             key={opt.letter}
             type="button"
             onClick={() => onSelect(opt.effect)}
-            className="bonus-option"
+            className="bonus-option bonus-option--hidden"
+            aria-label={`Bónusz táska ${opt.letter}`}
           >
             <span className="bonus-letter">{opt.letter}</span>
-            <span className="bonus-effect">{EFFECT_LABELS[opt.effect]}</span>
           </button>
         ))}
       </div>

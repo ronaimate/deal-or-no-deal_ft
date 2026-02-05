@@ -26,11 +26,15 @@ export function useGameState() {
   const shouldShowBankerAfterOpen =
     phase === 'open_bags' && bagsOpenedThisRound === bagsToOpenThisRound && bagsToOpenThisRound > 0;
 
+  const BANKER_OFFER_DELAY_MS = 2000;
+
   useEffect(() => {
-    if (shouldShowBankerAfterOpen) {
+    if (!shouldShowBankerAfterOpen) return;
+    const t = setTimeout(() => {
       setBankerOffer(calculateBankerOffer(bags));
       setPhase('banker_offer');
-    }
+    }, BANKER_OFFER_DELAY_MS);
+    return () => clearTimeout(t);
   }, [shouldShowBankerAfterOpen, bags]);
 
   const startGame = useCallback((name: string) => {
