@@ -100,7 +100,7 @@ function App() {
       ) : (
         <>
           <EliminatedAmounts
-            values={bags.filter((b) => b.opened).map((b) => b.value)}
+            eliminatedValues={bags.filter((b) => b.opened).map((b) => b.value)}
           />
           <BagGrid
             bags={bags}

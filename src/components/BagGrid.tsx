@@ -1,16 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Bag } from '../game/types';
 
-function formatAmount(value: number): string {
-  if (value >= 1_000_000) {
-    return `${(value / 1_000_000).toFixed(1)}M Ft`;
-  }
-  if (value >= 1_000) {
-    return `${(value / 1_000).toFixed(0)}e Ft`;
-  }
-  return `${value} Ft`;
-}
-
 interface BagGridProps {
   bags: Bag[];
   phase: 'select_bag' | 'open_bags';
@@ -79,14 +69,14 @@ export function BagGrid({
               bag.isOwn
                 ? `Saját táska: ${bag.id}`
                 : showValue
-                  ? `Táska ${bag.id}: ${formatAmount(bag.value)}`
+                  ? `Táska ${bag.id} kiesett`
                   : `Táska ${bag.id}`
             }
           >
             <span className="bag-handle" aria-hidden />
             <span className="bag-body">
               {showValue ? (
-                <span className="bag-value">{formatAmount(bag.value)}</span>
+                <span className="bag-value bag-value--eliminated">–</span>
               ) : (
                 <span className="bag-number">{bag.id}</span>
               )}

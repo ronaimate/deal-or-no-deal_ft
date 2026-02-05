@@ -1,5 +1,8 @@
-interface EliminatedAmountsProps {
-  values: number[];
+import { BAG_VALUES } from '../game/constants';
+
+interface AllAmountsProps {
+  /** Kinyitott táskák értékei – ezek áthúzva jelennek meg */
+  eliminatedValues: number[];
 }
 
 function formatAmount(value: number): string {
@@ -8,20 +11,24 @@ function formatAmount(value: number): string {
   return String(value);
 }
 
-export function EliminatedAmounts({ values }: EliminatedAmountsProps) {
-  if (values.length === 0) return null;
-
-  const sorted = [...values].sort((a, b) => a - b);
+export function EliminatedAmounts({ eliminatedValues }: AllAmountsProps) {
+  const eliminatedSet = new Set(eliminatedValues);
 
   return (
-    <section className="eliminated-amounts" aria-label="Kiesett összegek">
-      <span className="eliminated-label">Kiesett:</span>
-      <div className="eliminated-list">
-        {sorted.map((v) => (
-          <span key={v} className="eliminated-chip">
-            {formatAmount(v)} Ft
-          </span>
-        ))}
+    <section className="all-amounts" aria-label="Összes összeg">
+      <span className="all-amounts-label">Összegek:</span>
+      <div className="all-amounts-list">
+        {[...BAG_VALUES].sort((a, b) => a - b).map((value) => {
+          const isEliminated = eliminatedSet.has(value);
+          return (
+            <span
+              key={value}
+              className={`all-amounts-chip ${isEliminated ? 'all-amounts-chip--eliminated' : ''}`}
+            >
+              {formatAmount(value)} Ft
+            </span>
+          );
+        })}
       </div>
     </section>
   );
