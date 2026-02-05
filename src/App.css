@@ -1,0 +1,325 @@
+#root {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+/* Screens */
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1.5rem;
+}
+
+.name-screen h1 {
+  margin: 0 0 0.5rem;
+}
+
+.name-screen .subtitle {
+  margin: 0 0 1rem;
+  opacity: 0.9;
+}
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+.name-input {
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  border: 2px solid #444;
+  border-radius: 8px;
+  background: var(--input-bg, #1a1a1a);
+  color: inherit;
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: #646cff;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.1s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #646cff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  border-color: #535bf2;
+  background: #535bf2;
+}
+
+.btn-deal {
+  background: #22c55e;
+  color: #0f172a;
+}
+
+.btn-deal:hover {
+  border-color: #16a34a;
+  background: #16a34a;
+  color: white;
+}
+
+.btn-no-deal {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-no-deal:hover {
+  border-color: #dc2626;
+  background: #dc2626;
+}
+
+/* App main */
+.app-main {
+  padding: 1rem 0;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.game-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+}
+
+.player-name {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.round-info {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* Bag grid */
+.bag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.bag {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 3px solid #444;
+  background: #2a2a2a;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.bag:hover:not(:disabled) {
+  border-color: #646cff;
+  background: #333;
+}
+
+.bag.own {
+  border-color: #f59e0b;
+  background: #422006;
+}
+
+.bag.own:hover:not(:disabled) {
+  border-color: #fbbf24;
+}
+
+.bag.opened {
+  border-color: #555;
+  background: #1a1a1a;
+  cursor: default;
+}
+
+.bag-number {
+  font-size: 1.25rem;
+}
+
+.bag-value {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+@media (min-width: 500px) {
+  .bag-value {
+    font-size: 0.85rem;
+  }
+}
+
+/* Banker offer */
+.banker-offer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: #1e1e2e;
+  border-radius: 12px;
+  border: 2px solid #333;
+}
+
+.banker-offer h2 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.offer-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 2rem;
+  color: #fbbf24;
+}
+
+.banker-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.banker-buttons .btn {
+  min-width: 160px;
+}
+
+/* Bonus round */
+.bonus-round {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.bonus-round h2 {
+  margin: 0 0 1rem;
+}
+
+.bonus-intro {
+  margin: 0 0 2rem;
+  font-size: 1.1rem;
+}
+
+.bonus-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.bonus-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  border: 3px solid #555;
+  border-radius: 12px;
+  background: #2a2a2a;
+  color: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.bonus-option:hover {
+  border-color: #646cff;
+  background: #333;
+}
+
+.bonus-letter {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+.bonus-effect {
+  font-weight: 500;
+}
+
+/* Result screen */
+.result-screen h1 {
+  margin: 0 0 0.5rem;
+}
+
+.result-message {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.result-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 2rem;
+  color: #22c55e;
+}
+
+@media (prefers-color-scheme: light) {
+  .name-input {
+    --input-bg: #f0f0f0;
+  }
+
+  .bag {
+    background: #e8e8e8;
+    border-color: #999;
+  }
+
+  .bag.own {
+    background: #fef3c7;
+    border-color: #d97706;
+  }
+
+  .bag.opened {
+    background: #d4d4d4;
+  }
+
+  .banker-offer {
+    background: #f4f4f5;
+    border-color: #e4e4e7;
+  }
+
+  .offer-amount {
+    color: #b45309;
+  }
+
+  .bonus-option {
+    background: #f4f4f5;
+    border-color: #d4d4d8;
+  }
+
+  .bonus-option:hover {
+    background: #e4e4e7;
+  }
+
+  .result-amount {
+    color: #15803d;
+  }
+}
